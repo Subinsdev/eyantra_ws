@@ -1,5 +1,5 @@
 # EYANTRA SAHAYAK BOT
-![](./images/logo.jpg)
+![](./images/logo.png)
 
 # Basic ROS Installation Guide
 
