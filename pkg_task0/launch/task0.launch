@@ -3,10 +3,14 @@
 	<arg name ="record" default = "false" />
 	<arg name ="duration" default = "10" />
 	<arg name ="rec_name" default = "turtle_record.bag" />
+	<arg name ="rqt_graph" default = "false" />
 	<node name="turtlesim_node" pkg="turtlesim" type="turtlesim_node"/>
 	<node name="node_turtle_revolve" pkg="pkg_task0" type="node_turtle_revolve.py" output="screen"/>
 	<group if="$(arg record)">
     <node name="rosbag_record_turtle" pkg="rosbag" type="record"
        args="record -O $(find pkg_task0)/bag_files/$(arg rec_name) --duration=$(arg duration) --chunksize=10 /turtle1/cmd_vel /turtle1/pose" output="screen"/>
+	</group>
+	<group if="$(arg rqt_graph)">
+		<node name="rqt_graph" pkg="rqt_graph" type="rqt_graph"/>
 	</group>
 </launch>
