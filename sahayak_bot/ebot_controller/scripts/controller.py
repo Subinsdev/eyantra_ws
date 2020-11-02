@@ -11,7 +11,7 @@ from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion
 
-POSE = list()               # List to contain Odometry data
+POSE = [0, 0, 0]            # List to contain Odometry data
 REGIONS = dict()            # Dict to contain LaserScan data
 P = 1                       # Proportionality constant
 K = 2                       # Obstacle avoidance constant
@@ -58,12 +58,9 @@ def control_loop():
 
         if x_1 > 2 * math.pi:
             # For obstacle avoidance, a non-linear approach is used
-            r_err = 1/(REGIONS['fright'])
-            l_err = 1/(REGIONS['fleft'])
-            f_err = 1/(REGIONS['front'])
-            lb_err = 1/(REGIONS['bleft'])
-            rb_err = 1/(REGIONS['bright'])
-            laser_error = r_err - l_err + 2 * f_err - rb_err/1.5 + lb_err/1.5
+            laser_error = (1/(REGIONS['fright']) - 1/(REGIONS['fleft']) +
+                           2 * 1/(REGIONS['front']) - 1/(REGIONS['bright'])/1.5
+                           + 1/(REGIONS['bleft'])/1.5)
 
             # The above constants are experimentally determined
             # A weighted sum of goal error and obstacle error
@@ -77,7 +74,7 @@ def control_loop():
         velocity_msg.linear.x = 0.2
         velocity_msg.angular.z = balance
         pub.publish(velocity_msg)
-        print("Controller message pushed at {}".format(rospy.get_time()))
+        print "Controller message pushed at {}".format(rospy.get_time())
         rate.sleep()
 
     velocity_msg.linear.x = 0
