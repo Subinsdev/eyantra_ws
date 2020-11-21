@@ -4,13 +4,16 @@ import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Quaternion
+import math
 
-def keypoints(target):
+def keypoints():
     waypoints = [[-9.1, -1.2], [10.7, 10.5], [12.6, -1.9], [18.2, -1.4], [-2, 4]]
-    return waypoints[target]
-    q = quaternion_from_euler(0.0, 0.0, numpy.deg2rad(90.0))
+    while True:
+        input = input('Enter point index: ')
+        theta = input('Enter theta: ')
+        movebase_client(*waypoints[input], theta)
 
-def movebase_client():
+def movebase_client(x, y, theta):
    # Create an action client called "move_base" with action definition file "MoveBaseAction"
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
 
@@ -22,11 +25,11 @@ def movebase_client():
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
    # Move 0.5 meters forward along the x axis of the "map" coordinate frame
-    goal.target_pose.pose.position.x = 18.2
-    goal.target_pose.pose.position.y = -1.4
+    goal.target_pose.pose.position.x = x
+    goal.target_pose.pose.position.y = y
 
    # No rotation of the mobile base frame w.r.t. map frame
-    q = quaternion_from_euler(0.0, 0.0, 0)
+    q = quaternion_from_euler(0.0, 0.0, math.radians(theta))
     goal.target_pose.pose.orientation = Quaternion(*q)
 
    # Sends the goal to the action server.
@@ -46,7 +49,8 @@ if __name__ == '__main__':
     try:
        # Initializes a rospy node to let the SimpleActionClient publish and subscribe
         rospy.init_node('task2')
-        result = movebase_client()
+        keypoints()
+        # result = movebase_client()
         if result:
             rospy.loginfo("Goal execution done!")
     except rospy.ROSInterruptException:
