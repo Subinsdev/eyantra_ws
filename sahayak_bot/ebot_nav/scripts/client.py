@@ -22,8 +22,8 @@ def movebase_client():
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
    # Move 0.5 meters forward along the x axis of the "map" coordinate frame
-    goal.target_pose.pose.position.x = 12.6
-    goal.target_pose.pose.position.y = -1.9
+    goal.target_pose.pose.position.x = 18.2
+    goal.target_pose.pose.position.y = -1.4
 
    # No rotation of the mobile base frame w.r.t. map frame
     q = quaternion_from_euler(0.0, 0.0, 0)

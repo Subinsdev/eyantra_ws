@@ -1,9 +1,9 @@
 global_costmap:
   global_frame: map
   robot_base_frame: ebot_base
-  update_frequency: 1.0 #before: 5.0
-  publish_frequency: 0.5 #before 0.5
+  update_frequency: 1.0       # before: 5.0
+  publish_frequency: 0.5      # before 0.5
   static_map: true
-  transform_tolerance: 0.5
-  cost_scaling_factor: 10.0
-  inflation_radius: 0.55
+  transform_tolerance: 0.5    # tune, delay in transform update
+  cost_scaling_factor: 10.0   # tune, cost scaling factor
+  inflation_radius: 0.55      # tune, distance at which the cost of an obstacle should be considered.

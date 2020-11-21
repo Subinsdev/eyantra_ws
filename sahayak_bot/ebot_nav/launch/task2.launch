@@ -7,28 +7,11 @@
   <!-- including launch file for localization using AMCL -->
   <include file="$(find ebot_nav)/launch/amcl.launch" />
    <!-- including launch file for visualizing in rviz -->
-  <!-- <include file="$(find ebot_description)/launch/ebot_visualize.launch"/> -->
-
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find ebot_description)/urdf/ebot.xacro'"/>
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ebot_nav)/config/ebot_config.rviz" />
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-      <!-- <param name="use_gui" value="True" /> -->
-  </node>
+  <include file="$(find ebot_description)/launch/ebot_visualize.launch"/>
 
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" />
 
-  <!-- Move base -->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find ebot_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find ebot_nav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find ebot_nav)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find ebot_nav)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find ebot_nav)/config/trajectory_planner.yaml" command="load" />
-
-    <param name="move_base/DWAPlannerROS/yaw_goal_tolerance" value="1.0"/>
-    <param name="move_base/DWAPlannerROS/xy_goal_tolerance" value="1.0"/>
-
-  </node>
-
+  <!-- <include file="$(find ebot_nav)/launch/move_base.launch"/> -->
 </launch>
+
+<!-- 6:30 -->
