@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <include file="$(find ebot_nav)/launch/amcl.launch" />
+
+  <node pkg="gmapping" type="slam_gmapping" name="ebot_mapping" output="screen">
+    <remap from="scan" to="/ebot/laser/scan" />
+    <param name="base_frame" value="ebot_base" />
+  </node>
+</launch>
