@@ -1,5 +1,5 @@
 # EYANTRA SAHAYAK BOT
-![](./images/logo.png)
+![](.../images/logo.png)
 
 # Mobile Robot 2D Mapping and Navigation
 ## Prerequisites
