@@ -25,7 +25,7 @@ $ echo 'source ~/cyborg_ws/devel/setup.bash' >> ~/.bashrc
 Clone this repository inside src folder
 ```sh
 $ cd src
-$ git clone https://github.com/CYBORG-NIT-ROURKELA/IARC.git
+$ git clone https://github.com/arnabGudu/eyantra_ws.git
 ```
 
 ## Build
