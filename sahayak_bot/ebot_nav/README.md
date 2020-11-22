@@ -1,8 +1,12 @@
 # EYANTRA SAHAYAK BOT
-![](.../images/logo.png)
+![](../../images/logo.png)
 
 # Mobile Robot 2D Mapping and Navigation
 ## Prerequisites
+- Joint State Publisher:
+```sh
+sudo apt-get install ros-melodic-joint-state-publisher-gui
+```
 - Gmapping package:
 ```sh
 sudo apt-get install ros-melodic-gmapping
