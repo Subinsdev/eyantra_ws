@@ -1,54 +1,56 @@
 #!/usr/bin/env python
+'''
+Ebot controller node, contains all algorithms to follow a sinosodial trajectory
+with Odometry, avoid obstacles using LaserScan, and publish Proportional control
+command to skid steer drive to control the robot.
+'''
+import numpy as np
 import rospy
 import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Quaternion
-import math
 
 def keypoints():
-    waypoints = [[-9.1, -1.2], [10.7, 10.5], [12.6, -1.9], [18.2, -1.4], [-2, 4]]
-    while True:
-        input = input('Enter point index: ')
-        theta = input('Enter theta: ')
-        movebase_client(*waypoints[input], theta)
+    wp = np.array([[0,0], [-9.1, -1.2], [10.7, 10.5], [12.6, -1.9], [18.2, -1.4], [-2, 4]])
+    # theta = np.arctan2(wp[1:, 1] - wp[:-1, 1], wp[1:, 0] - wp[:-1, 0])
+    # theta = np.append(theta, theta[-1])
+    theta = np.arctan2(wp[1:, 1] - wp[:-1, 1], wp[1:, 0] - wp[:-1, 0])
+    for pts, ang in zip(wp[1:], theta):
+        movebase_client(pts[0], pts[1], ang)
 
 def movebase_client(x, y, theta):
-   # Create an action client called "move_base" with action definition file "MoveBaseAction"
+    '''
+    Pulishes target position to move_base server throught move_base/goal topic
+    params: x (float): x coordinte of target position
+            y (float): y coordinte of target position
+            theta (float): required yaw of the robot
+    '''
     client = actionlib.SimpleActionClient('move_base',MoveBaseAction)
-
-   # Waits until the action server has started up and started listening for goals.
-    client.wait_for_server()
-
-   # Creates a new goal with the MoveBaseGoal constructor
-    goal = MoveBaseGoal()
+    client.wait_for_server()                     # Waits until the action server starts
+    goal = MoveBaseGoal()                        # Creates a new goal
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
-   # Move 0.5 meters forward along the x axis of the "map" coordinate frame
     goal.target_pose.pose.position.x = x
     goal.target_pose.pose.position.y = y
-
-   # No rotation of the mobile base frame w.r.t. map frame
-    q = quaternion_from_euler(0.0, 0.0, math.radians(theta))
+    q = quaternion_from_euler(0.0, 0.0, np.radians(theta))
     goal.target_pose.pose.orientation = Quaternion(*q)
 
-   # Sends the goal to the action server.
-    client.send_goal(goal)
-   # Waits for the server to finish performing the action.
-    wait = client.wait_for_result()
-   # If the result doesn't arrive, assume the Server is not available
+    client.send_goal(goal)                      # Sends the goal to the action server.
+    wait = client.wait_for_result()             # Waits for the server to finishes.
     if not wait:
         rospy.logerr("Action server not available!")
         rospy.signal_shutdown("Action server not available!")
     else:
-    # Result of executing the action
-        return client.get_result()
+        return client.get_result()              # Result of executing the action
 
-# If the python node is executed as main process (sourced directly)
 if __name__ == '__main__':
+    '''
+    If the python node is executed as main process
+    Initializes a rospy node to let the SimpleActionClient publish and subscribe
+    '''
     try:
-       # Initializes a rospy node to let the SimpleActionClient publish and subscribe
-        rospy.init_node('task2')
+        rospy.init_node('task2_node')
         keypoints()
         # result = movebase_client()
         if result:
