@@ -7,17 +7,25 @@ command to skid steer drive to control the robot.
 import numpy as np
 import rospy
 import actionlib
-from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseActionFeedback
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Quaternion
 
+def feedback(msg):
+    print(msg)
+    
 def keypoints():
-    wp = np.array([[0,0], [-9.1, -1.2], [10.7, 10.5], [12.6, -1.9], [18.2, -1.4], [-2, 4]])
+    wp = np.array([[0,0], [-9.1, -1.2], [10.7, 10.5], [12.6, -1.6], [18.2, -1.4], [-2, 4]])
     # theta = np.arctan2(wp[1:, 1] - wp[:-1, 1], wp[1:, 0] - wp[:-1, 0])
     # theta = np.append(theta, theta[-1])
     theta = np.arctan2(wp[1:, 1] - wp[:-1, 1], wp[1:, 0] - wp[:-1, 0])
-    for pts, ang in zip(wp[1:], theta):
-        movebase_client(pts[0], pts[1], ang)
+    rospy.Subscriber('/move_base/feedback', MoveBaseActionFeedback, feedback)
+    i = 0
+    while not rospy.is_shutdown():
+        print(i, pts, ang)
+        movebase_client(wp[i][0], wp[i][1], theta[i])
+        i = i + 1
+    # for i, (pts, ang) in enumerate(zip(wp[1:], theta)):
 
 def movebase_client(x, y, theta):
     '''
@@ -43,6 +51,9 @@ def movebase_client(x, y, theta):
         rospy.signal_shutdown("Action server not available!")
     else:
         return client.get_result()              # Result of executing the action
+
+    feedback = MoveBaseActionFeedback()
+
 
 if __name__ == '__main__':
     '''
