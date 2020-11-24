@@ -11,5 +11,5 @@
 
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" />
 
-  <!-- <include file="$(find ebot_nav)/launch/move_base.launch"/> -->
+  <include file="$(find ebot_nav)/launch/move_base.launch"/>
 </launch>
