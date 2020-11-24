@@ -3,7 +3,7 @@
   <arg name="map_file" default="$(find ebot_nav)/maps/task2.yaml" />
 
   <!--including the launch file with a navigation world-->
-  <include file="$(find ebot_description)/launch/task2.launch" />
+  <!-- <include file="$(find ebot_description)/launch/task2.launch" /> -->
   <!-- including launch file for localization using AMCL -->
   <include file="$(find ebot_nav)/launch/amcl.launch" />
    <!-- including launch file for visualizing in rviz -->
@@ -13,5 +13,3 @@
 
   <!-- <include file="$(find ebot_nav)/launch/move_base.launch"/> -->
 </launch>
-
-<!-- 6:30 -->
