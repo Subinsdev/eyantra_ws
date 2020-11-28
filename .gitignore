@@ -1,7 +1,16 @@
+# Task 1
 sahayak_bot/ebot_description
 sahayak_bot/ebot_gazebo
+sahayak_bot/ros_logs/task1_log
+
+# Task 2
 sahayak_bot/ebot_nav/bag_files
 sahayak_bot/ebot_nav/Submission
-sahayak_bot/ros_logs/task1_log
 sahayak_bot/LICENSE
 eyantra_other_themes
+
+# Task 3
+sahayak_bot/gazebo-pkgs
+sahayak_bot/general-message-pkgs
+sahayak_bot/robotiq_85_gripper-master
+sahayak_bot/ur_description
