@@ -1,5 +1,5 @@
 # Task 1
-sahayak_bot/ebot_description
+# sahayak_bot/ebot_description
 sahayak_bot/ebot_gazebo
 sahayak_bot/ros_logs/task1_log
 
@@ -15,3 +15,8 @@ sahayak_bot/general-message-pkgs
 sahayak_bot/robotiq_85_gripper-master
 sahayak_bot/ur_description
 moveit
+
+sahayak_bot/ebot_description/*.*
+sahayak_bot/ebot_description/meshes
+sahayak_bot/ebot_description/scenes
+sahayak_bot/ebot_description/urdf
