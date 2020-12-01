@@ -14,3 +14,4 @@ sahayak_bot/gazebo-pkgs
 sahayak_bot/general-message-pkgs
 sahayak_bot/robotiq_85_gripper-master
 sahayak_bot/ur_description
+moveit
