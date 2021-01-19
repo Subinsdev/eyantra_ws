@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="feature_extractor" pkg="ebot_mani" type="feature_extractor" respawn="false"/>
+  <!-- <node name="pick_place_server" pkg="ebot_mani" type="pick_place_server.py" respawn="false"/> -->
+
+</launch>
