@@ -1,0 +1,3 @@
+[submodule "Sensor-Stick"]
+	path = Sensor-Stick
+	url = https://github.com/celibertojr/Sensor-Stick
