@@ -9,6 +9,14 @@ project(ebot_mani)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  message_generation
+  pcl_conversions
+  pcl_ros
+  roscpp
+  genmsg
+  sensor_msgs
+  std_msgs
+  object_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,12 +59,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  GetNormals.srv
+  PickPlace.srv
+)
+
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -66,10 +74,12 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+	DEPENDENCIES
+  std_msgs
+	sensor_msgs
+  object_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,6 +115,7 @@ catkin_package(
 #  LIBRARIES ebot_mani
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
+   CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -202,3 +213,11 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(feature_extractor src/feature_extractor.cpp)
+add_dependencies(feature_extractor ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(feature_extractor ${catkin_LIBRARIES})
+
+catkin_install_python(PROGRAMS scripts/pick_place_server.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
